@@ -15,12 +15,27 @@ fn test_is_ascii() {
 }
 
 #[test]
-fn test_is_digit() {
-    assert_eq!(beta(app(is_digit(), 47.into_church()), NOR, 0), false.into());
-    assert_eq!(beta(app(is_digit(), '0'.into_church()), NOR, 0), true.into());
-    assert_eq!(beta(app(is_digit(), '1'.into_church()), NOR, 0), true.into());
-    assert_eq!(beta(app(is_digit(), '5'.into_church()), NOR, 0), true.into());
-    assert_eq!(beta(app(is_digit(), '9'.into_church()), NOR, 0), true.into());
-    assert_eq!(beta(app(is_digit(), ':'.into_church()), NOR, 0), false.into());
-    assert_eq!(beta(app(is_digit(), 'a'.into_church()), NOR, 0), false.into());
+fn test_is_ascii_digit() {
+    assert_eq!(beta(app(is_ascii_digit(), 47.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_digit(), '0'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_digit(), '1'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_digit(), '5'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_digit(), '9'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_digit(), ':'.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_digit(), 'a'.into_church()), NOR, 0), false.into());
+}
+
+#[test]
+fn test_is_ascii_alpha() {
+    assert_eq!(beta(app(is_ascii_alpha(), '9'.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_alpha(), '@'.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'A'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'L'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'Z'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), '['.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_alpha(), '`'.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'a'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'l'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), 'z'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_alpha(), '{'.into_church()), NOR, 0), false.into());
 }

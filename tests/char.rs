@@ -42,3 +42,16 @@ fn test_is_ascii_alpha() {
     assert_eq!(beta(app(is_ascii_alpha(), 'z'.into_church()), NOR, 0), true.into());
     assert_eq!(beta(app(is_ascii_alpha(), '{'.into_church()), NOR, 0), false.into());
 }
+
+#[test]
+#[ignore]
+fn test_is_ascii_whitespace() {
+    assert_eq!(beta(app(is_ascii_whitespace(), ' '.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '\n'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '\r'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '\x0C'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '\t'.into_church()), NOR, 0), true.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '['.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '`'.into_church()), NOR, 0), false.into());
+    assert_eq!(beta(app(is_ascii_whitespace(), '\x00'.into_church()), NOR, 0), false.into());
+}

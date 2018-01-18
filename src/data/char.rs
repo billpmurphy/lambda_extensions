@@ -111,6 +111,48 @@ pub fn is_ascii_whitespace() -> Term {
     ))
 }
 
+/// Applied to a lambda-encoded character, it returns a lambda-encoded boolean indicating whether
+/// the character is an ASCII uppercase letter (A-Z).
+///
+/// IS_ASCII_UPPER ≡ λx.AND (LEQ `'A'` x) (LEQ x `'Z'`)) ≡ λ AND (LEQ `'A'` 1) (LEQ 1 `'Z'`)
+///
+/// # Examples
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::char::is_ascii_upper;
+///
+/// assert_eq!(beta(app(is_ascii_upper(), 'F'.into_church()), NOR, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_upper(), 'f'.into_church()), NOR, 0), false.into());
+/// ```
+pub fn is_ascii_upper() -> Term {
+    abs(app!(
+        boolean::and(),
+        app!(church::leq(), 'A'.into_church(), Var(1)),
+        app!(church::leq(), Var(1), 'Z'.into_church())
+    ))
+}
+
+/// Applied to a lambda-encoded character, it returns a lambda-encoded boolean indicating whether
+/// the character is an ASCII lowercase letter (a-z).
+///
+/// IS_ASCII_LOWER ≡ λx.AND (LEQ `'a'` x) (LEQ x `'z'`)) ≡ λ AND (LEQ `'a'` 1) (LEQ 1 `'z'`)
+///
+/// # Examples
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::char::is_ascii_lower;
+///
+/// assert_eq!(beta(app(is_ascii_lower(), 'F'.into_church()), NOR, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_lower(), 'f'.into_church()), NOR, 0), true.into());
+/// ```
+pub fn is_ascii_lower() -> Term {
+    abs(app!(
+        boolean::and(),
+        app!(church::leq(), 'a'.into_church(), Var(1)),
+        app!(church::leq(), Var(1), 'z'.into_church())
+    ))
+}
+
 /// Conversion from a Rust `char` to a Church-encoded character.
 pub trait IntoChurchChar {
     /// Performs the conversion.

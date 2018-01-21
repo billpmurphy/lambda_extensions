@@ -153,6 +153,48 @@ pub fn is_ascii_lower() -> Term {
     ))
 }
 
+/// Applied to a lambda-encoded character, if the character is an ASCII lowercase letter (a-z) it
+/// returns the equivalent ASCII uppercase letter (A-Z), otherwise it returns the character.
+///
+/// TO_ASCII_UPPER ≡ λx.(IS_ASCII_LOWER x) (SUB x `32`) x ≡ λ (IS_ASCII_LOWER 1) (SUB 1 `32`) 1
+///
+/// # Examples
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::char::to_ascii_upper;
+///
+/// assert_eq!(beta(app(to_ascii_upper(), '3'.into_church()), NOR, 0), '3'.into_church());
+/// assert_eq!(beta(app(to_ascii_upper(), 'f'.into_church()), NOR, 0), 'F'.into_church());
+/// ```
+pub fn to_ascii_upper() -> Term {
+    abs(app!(
+        app(is_ascii_lower(), Var(1)),
+        app!(church::sub(), Var(1), 32.into_church()),
+        Var(1)
+    ))
+}
+
+/// Applied to a lambda-encoded character, if the character is an ASCII uppercase letter (A-Z) it
+/// returns the equivalent ASCII lowercase letter (a-z), otherwise it returns the character.
+///
+/// TO_ASCII_LOWER ≡ λx.(IS_ASCII_UPPER x) (ADD x `32`) x ≡ λ (IS_ASCII_UPPER 1) (SUB 1 `32`) 1
+///
+/// # Examples
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::char::to_ascii_lower;
+///
+/// assert_eq!(beta(app(to_ascii_lower(), '3'.into_church()), NOR, 0), '3'.into_church());
+/// assert_eq!(beta(app(to_ascii_lower(), 'F'.into_church()), NOR, 0), 'f'.into_church());
+/// ```
+pub fn to_ascii_lower() -> Term {
+    abs(app!(
+        app(is_ascii_upper(), Var(1)),
+        app!(church::add(), Var(1), 32.into_church()),
+        Var(1)
+    ))
+}
+
 /// Conversion from a Rust `char` to a Church-encoded character.
 pub trait IntoChurchChar {
     /// Performs the conversion.

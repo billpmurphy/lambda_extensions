@@ -99,3 +99,39 @@ fn test_is_ascii_lower() {
     assert_eq!(beta(app(is_ascii_lower(), 'z'.into_church()), NOR, 0), true.into());
     assert_eq!(beta(app(is_ascii_lower(), '{'.into_church()), NOR, 0), false.into());
 }
+
+#[test]
+#[ignore]
+fn test_to_ascii_upper() {
+    assert_eq!(beta(app(to_ascii_upper(), '9'.into_church()), NOR, 0), '9'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), '@'.into_church()), NOR, 0), '@'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'A'.into_church()), NOR, 0), 'A'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'G'.into_church()), NOR, 0), 'G'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'Z'.into_church()), NOR, 0), 'Z'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), '['.into_church()), NOR, 0), '['.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), '`'.into_church()), NOR, 0), '`'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'a'.into_church()), NOR, 0), 'A'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'g'.into_church()), NOR, 0), 'G'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'l'.into_church()), NOR, 0), 'L'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'o'.into_church()), NOR, 0), 'O'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), 'z'.into_church()), NOR, 0), 'Z'.into_church());
+    assert_eq!(beta(app(to_ascii_upper(), '{'.into_church()), NOR, 0), '{'.into_church());
+}
+
+#[test]
+#[ignore]
+fn test_to_ascii_lower() {
+    assert_eq!(beta(app(to_ascii_lower(), '9'.into_church()), NOR, 0), '9'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), '@'.into_church()), NOR, 0), '@'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'A'.into_church()), NOR, 0), 'a'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'G'.into_church()), NOR, 0), 'g'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'L'.into_church()), NOR, 0), 'l'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'O'.into_church()), NOR, 0), 'o'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'Z'.into_church()), NOR, 0), 'z'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), '['.into_church()), NOR, 0), '['.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), '`'.into_church()), NOR, 0), '`'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'a'.into_church()), NOR, 0), 'a'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'l'.into_church()), NOR, 0), 'l'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), 'z'.into_church()), NOR, 0), 'z'.into_church());
+    assert_eq!(beta(app(to_ascii_lower(), '{'.into_church()), NOR, 0), '{'.into_church());
+}

@@ -4,6 +4,7 @@
 use lambda_calculus::*;
 use lambda_calculus::data::num::church;
 use lambda_calculus::data::boolean;
+use lambda_calculus::data::option;
 
 /// Applied to a lambda-encoded character, it returns a lambda-encoded boolean indicating whether
 /// the character is in the ASCII character set.
@@ -192,6 +193,29 @@ pub fn to_ascii_lower() -> Term {
         app(is_ascii_upper(), Var(1)),
         app!(church::add(), Var(1), 32.into_church()),
         Var(1)
+    ))
+}
+
+/// Applied to a lambda-encoded character, it returns a lambda-encoded `Option` containing the
+/// character converted to a Church numeral, if the character is an ASCII digit (0-9).
+///
+/// TO_DIGIT ≡ λx.(IS_ASCII_DIGIT x) (SOME (SUB x `48`)) NONE ≡
+/// λ (IS_ASCII_DIGIT 1) (SOME (SUB 1 `48`)) NONE
+///
+/// # Examples
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::char::to_digit;
+///
+/// let none: Option<usize> = None;
+/// assert_eq!(beta(app(to_digit(), '3'.into_church()), NOR, 0), Some(3).into_church());
+/// assert_eq!(beta(app(to_digit(), 'a'.into_church()), NOR, 0), none.into_church());
+/// ```
+pub fn to_digit() -> Term {
+    abs(app!(
+        app(is_ascii_digit(), Var(1)),
+        app(option::some(), app!(church::sub(), Var(1), 48.into_church())),
+        option::none()
     ))
 }
 

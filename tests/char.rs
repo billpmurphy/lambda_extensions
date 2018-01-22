@@ -135,3 +135,22 @@ fn test_to_ascii_lower() {
     assert_eq!(beta(app(to_ascii_lower(), 'z'.into_church()), NOR, 0), 'z'.into_church());
     assert_eq!(beta(app(to_ascii_lower(), '{'.into_church()), NOR, 0), '{'.into_church());
 }
+
+#[test]
+#[ignore]
+fn test_to_digit() {
+    let none: Option<usize> = None;
+    assert_eq!(beta(app(to_digit(), '0'.into_church()), NOR, 0), Some(0).into_church());
+    assert_eq!(beta(app(to_digit(), '1'.into_church()), NOR, 0), Some(1).into_church());
+    assert_eq!(beta(app(to_digit(), '2'.into_church()), NOR, 0), Some(2).into_church());
+    assert_eq!(beta(app(to_digit(), '3'.into_church()), NOR, 0), Some(3).into_church());
+    assert_eq!(beta(app(to_digit(), '4'.into_church()), NOR, 0), Some(4).into_church());
+    assert_eq!(beta(app(to_digit(), '5'.into_church()), NOR, 0), Some(5).into_church());
+    assert_eq!(beta(app(to_digit(), '6'.into_church()), NOR, 0), Some(6).into_church());
+    assert_eq!(beta(app(to_digit(), '7'.into_church()), NOR, 0), Some(7).into_church());
+    assert_eq!(beta(app(to_digit(), '8'.into_church()), NOR, 0), Some(8).into_church());
+    assert_eq!(beta(app(to_digit(), '9'.into_church()), NOR, 0), Some(9).into_church());
+    assert_eq!(beta(app(to_digit(), 'a'.into_church()), NOR, 0), none.into_church());
+    assert_eq!(beta(app(to_digit(), 'A'.into_church()), NOR, 0), none.into_church());
+    assert_eq!(beta(app(to_digit(), ':'.into_church()), NOR, 0), none.into_church());
+}

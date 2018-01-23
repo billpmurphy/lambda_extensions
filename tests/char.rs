@@ -4,6 +4,15 @@ use lambda_extensions::*;
 use lambda_extensions::data::char::*;
 
 #[test]
+fn test_char_convert() {
+    assert_eq!('\x00'.into_church(), 0.into_church());
+    assert_eq!('1'.into_church(), 49.into_church());
+    assert_eq!('a'.into_church(), 97.into_church());
+    assert_eq!('\x7F'.into_church(), 127.into_church());
+    assert_eq!('é'.into_church(), 233.into_church());
+}
+
+#[test]
 #[ignore]
 fn test_is_ascii() {
     assert_eq!(beta(app(is_ascii(), '\x00'.into_church()), NOR, 0), true.into());

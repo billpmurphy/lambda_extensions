@@ -5,9 +5,9 @@ use lambda_calculus::data::option;
 use lambda_calculus::data::pair;
 use lambda_calculus::data::list::pair as pair_list;
 
-/// Applied to a pair-encoded list it returns its first element; equivalent to `pair::fst`.
+/// Applied to a pair-encoded list it returns an `Option` containing its first element.
 ///
-/// HEAD ≡ λp.(NIL p) NONE (SOME (p TRUE)) ≡ λ 1 TRUE ≡ FST
+/// SAFE_HEAD ≡ λp.(NIL p) NONE (SOME (FST p)) ≡ λ (NIL 1) NONE (SOME (FST 1))
 ///
 /// # Example
 /// ```

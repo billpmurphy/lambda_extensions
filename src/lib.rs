@@ -10,3 +10,4 @@ pub use lambda_calculus::*;
 
 pub mod data;
 pub use data::char::IntoChurchChar;
+pub use data::string::IntoChurchString;

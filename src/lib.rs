@@ -1,6 +1,7 @@
 //! **lambda_extensions** is a collection of non-standard datatypes in the untyped lambda calculus.
 
 #![deny(missing_docs)]
+#![deny(unsafe_code)]
 
 #[macro_use]
 extern crate lambda_calculus;

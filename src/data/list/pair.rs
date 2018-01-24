@@ -30,3 +30,31 @@ pub fn safe_head() -> Term {
         app(option::some(), app(pair::fst(), Var(1)))
     ))
 }
+
+/// Applied to a Church-encoded number `i` and a pair-encoded list it returns an `Option`
+/// containing the `i`-th (zero-indexed) element of the list.
+///
+/// SAFE_INDEX ≡ λil.SAFE_HEAD (i TAIL l) ≡ λ λ SAFE_HEAD (2 TAIL 1)
+///
+/// # Example
+/// ```
+/// use lambda_extensions::data::list::pair::safe_index;
+/// use lambda_extensions::*;
+///
+/// let list = || vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+/// let none: Option<usize> = None;
+///
+/// assert_eq!(beta(app!(safe_index(), 0.into_church(), list()), NOR, 0), Some(1).into_church());
+/// assert_eq!(beta(app!(safe_index(), 1.into_church(), list()), NOR, 0), Some(2).into_church());
+/// assert_eq!(beta(app!(safe_index(), 3.into_church(), list()), NOR, 0), none.into_church());
+/// ```
+pub fn safe_index() -> Term {
+    abs!(2, app(
+        safe_head(),
+        app!(
+            Var(2),
+            pair_list::tail(),
+            Var(1)
+        )
+    ))
+}

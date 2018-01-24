@@ -1,7 +1,6 @@
 //! Church-encoded string represented as a pair-list of Church-encoded characters
 
 use lambda_calculus::*;
-//use lambda_calculus::data::num::church;
 
 /// Conversion from a Rust `&str` to a Church-encoded character.
 pub trait IntoChurchString {

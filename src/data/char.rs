@@ -16,8 +16,8 @@ use lambda_calculus::data::option;
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii;
 ///
-/// assert_eq!(beta(app(is_ascii(), 'f'.into_church()), NOR, 0), true.into());
-/// assert_eq!(beta(app(is_ascii(), 'é'.into_church()), NOR, 0), false.into());
+/// assert_eq!(beta(app(is_ascii(), 'f'.into_church()), HAP, 0), true.into());
+/// assert_eq!(beta(app(is_ascii(), 'é'.into_church()), HAP, 0), false.into());
 /// ```
 pub fn is_ascii() -> Term {
     abs(app!(church::leq(), Var(1), '\x7F'.into_church()))
@@ -34,8 +34,8 @@ pub fn is_ascii() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii_digit;
 ///
-/// assert_eq!(beta(app(is_ascii_digit(), 'a'.into_church()), NOR, 0), false.into());
-/// assert_eq!(beta(app(is_ascii_digit(), '3'.into_church()), NOR, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_digit(), 'a'.into_church()), HAP, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_digit(), '3'.into_church()), HAP, 0), true.into());
 /// ```
 pub fn is_ascii_digit() -> Term {
     abs(app!(
@@ -56,8 +56,8 @@ pub fn is_ascii_digit() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii_alpha;
 ///
-/// assert_eq!(beta(app(is_ascii_alpha(), 'B'.into_church()), NOR, 0), true.into());
-/// assert_eq!(beta(app(is_ascii_alpha(), '3'.into_church()), NOR, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_alpha(), 'B'.into_church()), HAP, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_alpha(), '3'.into_church()), HAP, 0), false.into());
 /// ```
 pub fn is_ascii_alpha() -> Term {
     abs(app!(
@@ -89,8 +89,8 @@ pub fn is_ascii_alpha() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii_whitespace;
 ///
-/// assert_eq!(beta(app(is_ascii_whitespace(), '\n'.into_church()), NOR, 0), true.into());
-/// assert_eq!(beta(app(is_ascii_whitespace(), '3'.into_church()), NOR, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_whitespace(), '\n'.into_church()), HAP, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_whitespace(), '3'.into_church()), HAP, 0), false.into());
 /// ```
 pub fn is_ascii_whitespace() -> Term {
     abs(app!(
@@ -122,8 +122,8 @@ pub fn is_ascii_whitespace() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii_upper;
 ///
-/// assert_eq!(beta(app(is_ascii_upper(), 'F'.into_church()), NOR, 0), true.into());
-/// assert_eq!(beta(app(is_ascii_upper(), 'f'.into_church()), NOR, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_upper(), 'F'.into_church()), HAP, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_upper(), 'f'.into_church()), HAP, 0), false.into());
 /// ```
 pub fn is_ascii_upper() -> Term {
     abs(app!(
@@ -143,8 +143,8 @@ pub fn is_ascii_upper() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::is_ascii_lower;
 ///
-/// assert_eq!(beta(app(is_ascii_lower(), 'F'.into_church()), NOR, 0), false.into());
-/// assert_eq!(beta(app(is_ascii_lower(), 'f'.into_church()), NOR, 0), true.into());
+/// assert_eq!(beta(app(is_ascii_lower(), 'F'.into_church()), HAP, 0), false.into());
+/// assert_eq!(beta(app(is_ascii_lower(), 'f'.into_church()), HAP, 0), true.into());
 /// ```
 pub fn is_ascii_lower() -> Term {
     abs(app!(
@@ -164,8 +164,8 @@ pub fn is_ascii_lower() -> Term {
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::to_ascii_upper;
 ///
-/// assert_eq!(beta(app(to_ascii_upper(), '3'.into_church()), NOR, 0), '3'.into_church());
-/// assert_eq!(beta(app(to_ascii_upper(), 'f'.into_church()), NOR, 0), 'F'.into_church());
+/// assert_eq!(beta(app(to_ascii_upper(), '3'.into_church()), HAP, 0), '3'.into_church());
+/// assert_eq!(beta(app(to_ascii_upper(), 'f'.into_church()), HAP, 0), 'F'.into_church());
 /// ```
 pub fn to_ascii_upper() -> Term {
     abs(app!(
@@ -178,15 +178,15 @@ pub fn to_ascii_upper() -> Term {
 /// Applied to a lambda-encoded character, if the character is an ASCII uppercase letter (A-Z) it
 /// returns the equivalent ASCII lowercase letter (a-z), otherwise it returns the character.
 ///
-/// TO_ASCII_LOWER ≡ λx.(IS_ASCII_UPPER x) (ADD x `32`) x ≡ λ (IS_ASCII_UPPER 1) (SUB 1 `32`) 1
+/// TO_ASCII_LOWER ≡ λx.(IS_ASCII_UPPER x) (ADD x `32`) x ≡ λ (IS_ASCII_UPPER 1) (ADD 1 `32`) 1
 ///
 /// # Examples
 /// ```
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::char::to_ascii_lower;
 ///
-/// assert_eq!(beta(app(to_ascii_lower(), '3'.into_church()), NOR, 0), '3'.into_church());
-/// assert_eq!(beta(app(to_ascii_lower(), 'F'.into_church()), NOR, 0), 'f'.into_church());
+/// assert_eq!(beta(app(to_ascii_lower(), '3'.into_church()), HAP, 0), '3'.into_church());
+/// assert_eq!(beta(app(to_ascii_lower(), 'F'.into_church()), HAP, 0), 'f'.into_church());
 /// ```
 pub fn to_ascii_lower() -> Term {
     abs(app!(
@@ -208,8 +208,8 @@ pub fn to_ascii_lower() -> Term {
 /// use lambda_extensions::data::char::to_digit;
 ///
 /// let none: Option<usize> = None;
-/// assert_eq!(beta(app(to_digit(), '3'.into_church()), NOR, 0), Some(3).into_church());
-/// assert_eq!(beta(app(to_digit(), 'a'.into_church()), NOR, 0), none.into_church());
+/// assert_eq!(beta(app(to_digit(), '3'.into_church()), HAP, 0), Some(3).into_church());
+/// assert_eq!(beta(app(to_digit(), 'a'.into_church()), HAP, 0), none.into_church());
 /// ```
 pub fn to_digit() -> Term {
     abs(app!(

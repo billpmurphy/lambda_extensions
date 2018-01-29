@@ -10,8 +10,8 @@ rust:
   - nightly
 
 script:
-  - cargo build
-  - cargo test
+  - "cargo build --release"
+  - "cargo test --release"
 
 matrix:
   allow_failures:

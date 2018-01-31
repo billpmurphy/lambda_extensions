@@ -9,6 +9,7 @@ extern crate lambda_calculus;
 // For convenience, re-export everything from `lambda_calculus`
 pub use lambda_calculus::*;
 
+pub mod utils;
 pub mod data;
 pub use data::char::IntoChurchChar;
 pub use data::string::IntoChurchString;

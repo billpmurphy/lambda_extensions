@@ -34,76 +34,40 @@ pub fn safe_head() -> Term {
     ))
 }
 
-/*
->>>>>>> Stashed changes
-/// Applied to a Church-encoded number `i` and a pair-encoded list it returns an `Option`
-/// containing the `i`-th (zero-indexed) element of the list.
+/// Applied to a pair-encoded list it returns an `Option` containing
 ///
-/// SAFE_INDEX ≡ λil.SAFE_HEAD (i TAIL l) ≡ λ λ SAFE_HEAD (2 TAIL 1)
+/// uncons ≡ λp.(NIL p) NONE (SOME (PAIR (HEAD p) (TAIL p)))
+///        ≡ λp.(NIL p) NONE (SOME (PAIR (HEAD p) (TAIL p)))
 ///
 /// # Example
 /// ```
-/// use lambda_extensions::data::list::pair::safe_index;
 /// use lambda_extensions::*;
+/// use lambda_extensions::data::list::pair::uncons;
 ///
-/// let list = || vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+/// let list1 = vec![4.into_church(), 3.into_church()].into_pair_list();
+/// let list2 = vec![3.into_church()].into_pair_list();
+/// let empty = vec![].into_pair_list();
+///
+/// let pair1: Term = (4.into_church(), list2.clone()).into();
+/// let pair2: Term = (3.into_church(), empty.clone()).into();
 /// let none: Option<usize> = None;
 ///
-/// assert_eq!(beta(app!(safe_index(), 0.into_church(), list()), NOR, 0), Some(1).into_church());
-/// assert_eq!(beta(app!(safe_index(), 1.into_church(), list()), NOR, 0), Some(2).into_church());
-/// assert_eq!(beta(app!(safe_index(), 3.into_church(), list()), NOR, 0), none.into_church());
+/// assert_eq!(beta(app(uncons(), list1.clone()), NOR, 0), Some(pair1).into());
+/// assert_eq!(beta(app(uncons(), list2.clone()), NOR, 0), Some(pair2).into());
+/// assert_eq!(beta(app(uncons(), empty.clone()), NOR, 0), none.into_church());
 /// ```
-pub fn safe_index() -> Term {
-    abs!(2, app(
-        safe_head(),
-        app!(
-            Var(2),
-            pair_list::tail(),
-            Var(1)
+pub fn uncons() -> Term {
+    abs(app!(
+        pair_list::is_nil(),
+        Var(1),
+        option::none(),
+        app(
+            option::some(),
+            app!(
+                pair::pair(),
+                app(pair_list::head(), Var(1)),
+                app(pair_list::tail(), Var(1))
+            )
         )
     ))
 }
-<<<<<<< Updated upstream
-=======
-/// Applied to a Church-encoded number `i` and a pair-encoded list it returns an `Option`
-/// containing the `i`-th (zero-indexed) element of the list.
-///
-/// SAFE_INDEX ≡ λil.SAFE_HEAD (i TAIL l) ≡ λ λ SAFE_HEAD (2 TAIL 1)
-///
-/// # Example
-/// ```
-/// extern crate lambda_calculus;
-/// use lambda_extensions::data::num::church;
-/// use lambda_extensions::*;
-/// use lambda_extensions::data::list::pair::elem;
-///
-/// let list = || vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
-///
-/// assert_eq!(beta(app!(elem(church::eq()), 1.into_church(), list()), NOR, 0), true.into());
-/// assert_eq!(beta(app!(elem(church::eq()), 4.into_church(), list()), NOR, 0), false.into());
-/// assert_eq!(beta(app!(elem(church::eq()), 3.into_church(), list()), NOR, 0), true.into());
-/// ```
-pub fn elem(eq: Term) -> Term {
-    app(
-        Z(),
-        abs!(3, app!(
-            pair_list::is_nil(),
-            Var(1),
-            boolean::fls(),
-            app!(
-                boolean::or(),
-                app!(
-                    eq,
-                    app(pair_list::head(), Var(1)),
-                    Var(2)
-                ),
-                app!(
-                    Var(3),
-                    Var(2),
-                    app(pair_list::tail(), Var(1))
-                )
-            )
-        ))
-    )
-}
-*/

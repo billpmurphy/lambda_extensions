@@ -1,11 +1,8 @@
 //! [Single-pair list](https://en.wikipedia.org/wiki/Church_encoding#One_pair_as_a_list_node)
 
 use lambda_calculus::*;
-use lambda_calculus::combinators::Z;
 use lambda_calculus::data::list::pair as pair_list;
-use lambda_calculus::data::num::church;
 use lambda_calculus::data::option;
-use lambda_calculus::data::boolean;
 use lambda_calculus::data::pair;
 
 /// Applied to a pair-encoded list it returns an `Option` containing its first element.

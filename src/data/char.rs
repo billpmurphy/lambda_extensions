@@ -5,6 +5,9 @@ use lambda_calculus::*;
 use lambda_calculus::data::num::church;
 use lambda_calculus::data::boolean;
 use lambda_calculus::data::option;
+use data::convert::TryFromTermChurch;
+
+use std::char::{MAX, from_u32};
 
 /// Applied to a lambda-encoded character, it returns a lambda-encoded boolean indicating whether
 /// the character is in the ASCII character set.
@@ -228,5 +231,27 @@ pub trait IntoChurchChar {
 impl IntoChurchChar for char {
     fn into_church(self) -> Term {
         (self as usize).into_church()
+    }
+}
+
+impl TryFromTermChurch<char> for Term {
+    fn try_from_church(&self) -> Option<char> {
+        let mut inner: &Term = match self.unabs_ref().and_then(|x| x.unabs_ref()) {
+            Ok(v) => v,
+            _ => return None
+        };
+
+        let mut num: u32 = 0;
+        while num <= MAX as u32 {
+            match inner {
+                &Var(1) => return from_u32(num),
+                &App(ref f, ref a) if Ok(&2) == f.unvar_ref() => {
+                    num += 1;
+                    inner = a;
+                }
+                _ => break,
+            }
+        }
+        None
     }
 }

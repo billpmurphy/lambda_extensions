@@ -2,16 +2,26 @@ extern crate lambda_extensions;
 
 use lambda_extensions::*;
 use lambda_extensions::data::char::*;
+use lambda_extensions::data::convert::*;
 use lambda_extensions::utils::assert_lc;
 
 #[test]
-fn test_char_convert() {
+fn test_convert_char_to_term() {
     assert_lc('\x00'.into_church(), 0.into_church());
     assert_lc('1'.into_church(), 49.into_church());
     assert_lc('a'.into_church(), 97.into_church());
     assert_lc('\x7F'.into_church(), 127.into_church());
     assert_lc('é'.into_church(), 233.into_church());
     assert_lc('é'.into_church(), 233.into_church());
+}
+
+#[test]
+fn test_convert_term_to_char() {
+    assert_eq!(abs(Var(1)).try_from_church() as Option<char>, None);
+    assert_eq!('\x00'.into_church().try_from_church(), Some('\x00'));
+    assert_eq!('0'.into_church().try_from_church(), Some('0'));
+    assert_eq!('a'.into_church().try_from_church(), Some('a'));
+    assert_eq!('é'.into_church().try_from_church(), Some('é'));
 }
 
 #[test]

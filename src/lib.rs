@@ -13,3 +13,4 @@ pub mod utils;
 pub mod data;
 pub use data::char::IntoChurchChar;
 pub use data::string::IntoChurchString;
+pub use data::convert::TryFromTerm;

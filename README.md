@@ -8,3 +8,4 @@ Opinionated extensions and add-ons to the
 
 ## Features
 * Non-standard implementations of datatypes in the untyped lambda calculus
+* Functions to convert lambda-encoded datatypes to native Rust types

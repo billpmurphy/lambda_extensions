@@ -1,7 +1,7 @@
 //! Lambda-encoded booleans
 
 use lambda_calculus::*;
-use data::convert::TryFromTerm;
+use data::convert::*;
 
 impl TryFromTerm<bool> for Term {
     fn try_from(&self) -> Option<bool> {
@@ -10,5 +10,11 @@ impl TryFromTerm<bool> for Term {
             Ok(&Var(2)) => Some(true),
             _ => None,
         }
+    }
+}
+
+impl TryFromTermChurch<bool> for Term {
+    fn try_from_church(&self) -> Option<bool> {
+        self.try_from()
     }
 }

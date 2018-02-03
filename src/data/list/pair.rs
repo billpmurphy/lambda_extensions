@@ -2,8 +2,10 @@
 
 use lambda_calculus::*;
 use lambda_calculus::data::list::pair as pair_list;
+use lambda_calculus::data::num::church;
 use lambda_calculus::data::option;
 use lambda_calculus::data::pair;
+use lambda_calculus::combinators::{I, Z};
 
 /// Applied to a pair-encoded list it returns an `Option` containing its first element.
 ///
@@ -67,4 +69,52 @@ pub fn uncons() -> Term {
             )
         )
     ))
+}
+
+/// Applied to a bit array represented as a pair-encoded list of lambda-encoded booleans, it
+/// returns the numerical value of the bit array.
+///
+/// bin_to_cnum ≡ Z (λzax.(IS_NIL x) (λy.a) (λy.z (ADD (MUL (SUCC ONE) a) (HEAD x ONE ZERO)) (TAIL x)) I) ZERO
+///             ≡ Z (λ λ λ (IS_NIL 1) (λ 3) (λ 4 (ADD (MUL (SUCC ONE) 3) (HEAD 2 ONE ZERO)) (TAIL 2)) I) ZERO
+///
+/// # Example
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::list::pair::bin_to_cnum;
+///
+/// let list1 = vec![true.into(), false.into()].into_pair_list();
+/// let list2 = vec![true.into(), true.into()].into_pair_list();
+///
+/// assert_eq!(beta(app(bin_to_cnum(), list1), NOR, 0), 2.into_church());
+/// assert_eq!(beta(app(bin_to_cnum(), list2), NOR, 0), 3.into_church());
+/// ```
+pub fn bin_to_cnum() -> Term {
+    app!(
+        Z(),
+        abs!(3, app!(
+            pair_list::is_nil(),
+            Var(1),
+            abs(Var(3)),
+            abs(app!(
+                Var(4),
+                app!(
+                    church::add(),
+                    app!(
+                        church::mul(),
+                        app(church::succ(), church::one()),
+                        Var(3)
+                    ),
+                    app!(
+                        pair_list::head(),
+                        Var(2),
+                        church::one(),
+                        church::zero()
+                    )
+                ),
+                app(pair_list::tail(), Var(2))
+            )),
+            I()
+        )),
+        church::zero()
+    )
 }

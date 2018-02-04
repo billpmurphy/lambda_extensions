@@ -2,8 +2,11 @@ extern crate lambda_calculus;
 extern crate lambda_extensions;
 
 use lambda_extensions::*;
+use lambda_extensions::data::option::*;
+use lambda_extensions::utils::assert_lc;
 use lambda_calculus::data::boolean;
 use lambda_calculus::data::option;
+use lambda_calculus::data::num::church;
 
 #[test]
 fn test_convert_term_to_option_bool() {
@@ -23,3 +26,14 @@ fn test_convert_term_to_option_bool() {
         None
     );
 }
+
+#[test]
+fn test_foldm_option() {
+    let empty = vec![].into_pair_list();
+    let list = vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+    let f = || abs!(2, app(option::some(), app!(church::add(), Var(1), Var(2))));
+
+    assert_lc(app!(foldm(), f(), 0.into_church(), empty), Some(0).into_church());
+    assert_lc(app!(foldm(), f(), 0.into_church(), list), Some(6).into_church());
+}
+

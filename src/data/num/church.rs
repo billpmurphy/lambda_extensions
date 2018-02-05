@@ -2,7 +2,10 @@
 
 use lambda_calculus::*;
 use std::u64::MAX;
+
 use data::convert::TryFromTermChurch;
+
+pub use lambda_calculus::data::num::church::*;
 
 impl TryFromTermChurch<u64> for Term {
     fn try_from_church(&self) -> Option<u64> {

@@ -34,6 +34,7 @@ fn test_foldm_option() {
     let f = || abs!(2, app(option::some(), app!(church::add(), Var(1), Var(2))));
 
     assert_lc(app!(foldm(), f(), 0.into_church(), empty), Some(0).into_church());
-    assert_lc(app!(foldm(), f(), 0.into_church(), list), Some(6).into_church());
+    assert_lc(app!(foldm(), f(), 0.into_church(), list.clone()), Some(6).into_church());
+    assert_lc(app!(foldm(), f(), 3.into_church(), list.clone()), Some(9).into_church());
 }
 

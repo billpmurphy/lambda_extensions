@@ -2,7 +2,6 @@ extern crate lambda_extensions;
 
 use lambda_extensions::*;
 use lambda_extensions::data::char::*;
-use lambda_extensions::data::convert::*;
 use lambda_extensions::utils::assert_lc;
 
 #[test]

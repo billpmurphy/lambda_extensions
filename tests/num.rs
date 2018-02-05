@@ -1,7 +1,6 @@
 extern crate lambda_extensions;
 
 use lambda_extensions::*;
-use lambda_extensions::data::convert::*;
 
 #[test]
 fn test_convert_term_to_u64() {

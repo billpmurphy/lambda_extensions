@@ -2,9 +2,10 @@
 //! [Haskell](https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-Char.html)
 
 use lambda_calculus::*;
-use lambda_calculus::data::num::church;
-use lambda_calculus::data::boolean;
-use lambda_calculus::data::option;
+
+use data::num::church;
+use data::boolean;
+use data::option;
 use data::convert::TryFromTermChurch;
 
 use std::char::{MAX, from_u32};

@@ -1,11 +1,14 @@
 //! [Single-pair list](https://en.wikipedia.org/wiki/Church_encoding#One_pair_as_a_list_node)
 
 use lambda_calculus::*;
-use lambda_calculus::data::list::pair as pair_list;
-use lambda_calculus::data::num::church;
-use lambda_calculus::data::option;
-use lambda_calculus::data::pair;
 use lambda_calculus::combinators::{I, Z};
+
+use lambda_calculus::data::num::church;
+use lambda_calculus::data::pair;
+
+use data::option;
+
+pub use lambda_calculus::data::list::pair::*;
 
 /// Applied to a pair-encoded list it returns an `Option` containing its first element.
 ///
@@ -27,7 +30,7 @@ use lambda_calculus::combinators::{I, Z};
 /// ```
 pub fn safe_head() -> Term {
     abs(app!(
-        app(pair_list::is_nil(), Var(1)),
+        app(is_nil(), Var(1)),
         option::none(),
         app(option::some(), app(pair::fst(), Var(1)))
     ))
@@ -57,15 +60,15 @@ pub fn safe_head() -> Term {
 /// ```
 pub fn uncons() -> Term {
     abs(app!(
-        pair_list::is_nil(),
+        is_nil(),
         Var(1),
         option::none(),
         app(
             option::some(),
             app!(
                 pair::pair(),
-                app(pair_list::head(), Var(1)),
-                app(pair_list::tail(), Var(1))
+                app(head(), Var(1)),
+                app(tail(), Var(1))
             )
         )
     ))
@@ -92,7 +95,7 @@ pub fn bin_to_cnum() -> Term {
     app!(
         Z(),
         abs!(3, app!(
-            pair_list::is_nil(),
+            is_nil(),
             Var(1),
             abs(Var(3)),
             abs(app!(
@@ -105,13 +108,13 @@ pub fn bin_to_cnum() -> Term {
                         Var(3)
                     ),
                     app!(
-                        pair_list::head(),
+                        head(),
                         Var(2),
                         church::one(),
                         church::zero()
                     )
                 ),
-                app(pair_list::tail(), Var(2))
+                app(tail(), Var(2))
             )),
             I()
         )),

@@ -1,10 +1,12 @@
 //! Conversion traits for lambda-encoded options
 
 use lambda_calculus::*;
-use data::convert::*;
-use lambda_calculus::combinators::{I, Z};
-use lambda_calculus::data::list::pair as pair_list;
-use lambda_calculus::data::option;
+
+use combinators::{I, Z};
+use data::convert::{TryFromTerm, TryFromTermChurch};
+use data::list::pair as pair_list;
+
+pub use lambda_calculus::data::option::*;
 
 /// Applied to a function, a starting value and a pair-encoded list it performs a monadic
 /// left fold on the list.
@@ -12,6 +14,22 @@ use lambda_calculus::data::option;
 /// FOLDM :: (b -> a -> Option<b>) -> Option<b> -> List<a> -> Option<b>
 ///
 /// FOLDM ≡ (λfal.Z (λzfsl.IS_NIL l (λx.s) (λx.z f (AND_THEN s (λx.f x (HEAD l))) (TAIL l)) I) f (SOME a) l
+///
+/// # Example
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::num::church::add;
+/// use lambda_extensions::data::option::{some, foldm};
+///
+/// //assert_eq!(beta(app(is_ascii(), 'f'.into_church()), HAP, 0), true.into());
+///
+/// let empty = vec![].into_pair_list();
+/// let list = vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+/// let f = || abs!(2, app(some(), app!(add(), Var(1), Var(2))));
+///
+/// assert_eq!(beta(app!(foldm(), f(), 0.into_church(), empty), NOR, 0), Some(0).into_church());
+/// assert_eq!(beta(app!(foldm(), f(), 0.into_church(), list), NOR, 0), Some(6).into_church());
+/// ```
 pub fn foldm() -> Term {
     abs!(3, app!(
         Z(),
@@ -23,7 +41,7 @@ pub fn foldm() -> Term {
                 Var(5),
                 Var(4),
                 app!(
-                    option::and_then(),
+                    and_then(),
                     Var(3),
                     abs(app!(
                         Var(5),
@@ -36,7 +54,7 @@ pub fn foldm() -> Term {
             I()
         )),
         Var(3),
-        app(option::some(), Var(2)),
+        app(some(), Var(2)),
         Var(1)
     ))
 }

@@ -1,11 +1,11 @@
 //! Church-encoded string represented as a pair-list of Church-encoded characters
 
 use lambda_calculus::*;
-use lambda_calculus::data::num::church;
-use lambda_calculus::data::list::pair as pair_list;
-use lambda_calculus::data::option;
+
+use data::num::church;
+use data::list::pair as pair_list;
+use data::option;
 use data::char;
-use data::option::foldm;
 
 /// Applied to a Church-encoded string it produces an `Option` containing the value of the string
 /// parsed as an unsighed integer, represented as a Church-encoded numeral.
@@ -27,7 +27,7 @@ pub fn parse_num() -> Term {
         Var(1),
         option::none(),
         app!(
-            foldm(),
+            option::foldm(),
             abs!(2, app!(
                 option::and_then(),
                 app(char::to_digit(), Var(1)),

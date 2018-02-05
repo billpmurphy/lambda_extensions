@@ -35,7 +35,8 @@ pub fn safe_head() -> Term {
     ))
 }
 
-/// Applied to a pair-encoded list it returns an `Option` containing
+/// Applied to a pair-encoded list it returns an `Option` containing a pair of the first element in
+/// the list and the tail of the list.
 ///
 /// uncons ≡ λp.(NIL p) NONE (SOME (PAIR (HEAD p) (TAIL p)))
 ///        ≡ λp.(NIL p) NONE (SOME (PAIR (HEAD p) (TAIL p)))
@@ -71,6 +72,32 @@ pub fn uncons() -> Term {
             )
         )
     ))
+}
+
+/// Applied to a pair-encoded list of pair-encoded lists it returns a the inner lists concatenated
+/// together.
+///
+/// concat ≡ FOLDL APPEND NIL
+///
+/// # Example
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::list::pair::concat;
+///
+/// let list = vec![
+///     vec![1.into_church()].into_pair_list(),
+///     vec![2.into_church(), 3.into_church()].into_pair_list(),
+/// ].into_pair_list();
+/// let flat = vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+///
+/// assert_eq!(beta(app(concat(), list), NOR, 0), flat);
+/// ```
+pub fn concat() -> Term {
+    app!(
+        foldl(),
+        append(),
+        nil()
+    )
 }
 
 /// Applied to a bit array represented as a pair-encoded list of lambda-encoded booleans, it

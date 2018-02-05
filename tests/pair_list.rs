@@ -5,6 +5,25 @@ use lambda_extensions::utils::assert_lc;
 use lambda_extensions::data::list::pair::*;
 
 #[test]
+fn test_concat() {
+    let empty = vec![].into_pair_list();
+    let outer_empty = vec![empty.clone(), empty.clone(), empty.clone()].into_pair_list();
+    let inner_single = vec![false.into()].into_pair_list();
+    let inner_double = vec![false.into(), false.into()].into_pair_list();
+    let outer_single = vec![inner_single.clone()].into_pair_list();
+    let outer_double = vec![inner_single.clone(), inner_single.clone()].into_pair_list();
+    let outer_double_2 = vec![inner_single.clone(), empty.clone(), inner_single.clone()].into_pair_list();
+    let outer_double_3 = vec![empty.clone(), inner_single.clone(), inner_single.clone()].into_pair_list();
+
+    assert_lc(app(concat(), empty.clone()), empty.clone());
+    assert_lc(app(concat(), outer_empty.clone()), empty.clone());
+    assert_lc(app(concat(), outer_single.clone()), inner_single.clone());
+    assert_lc(app(concat(), outer_double.clone()), inner_double.clone());
+    assert_lc(app(concat(), outer_double_2.clone()), inner_double.clone());
+    assert_lc(app(concat(), outer_double_3.clone()), inner_double.clone());
+}
+
+#[test]
 fn test_bin_to_cnum() {
     let empty = vec![].into_pair_list();
     let list0a = vec![false.into()].into_pair_list();

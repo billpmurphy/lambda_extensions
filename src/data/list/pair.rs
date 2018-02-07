@@ -77,7 +77,7 @@ pub fn uncons() -> Term {
 /// Applied to a pair-encoded list of pair-encoded lists it returns a the inner lists concatenated
 /// together.
 ///
-/// concat ≡ FOLDL APPEND NIL
+/// CONCAT ≡ FOLDL APPEND NIL
 ///
 /// # Example
 /// ```
@@ -98,6 +98,28 @@ pub fn concat() -> Term {
         append(),
         nil()
     )
+}
+
+/// SLICE ≡ λsfx.TAKE (SUB f s) (DROP s x) ≡ λ λ λ TAKE (SUB 2 3) (DROP 3 1)
+///
+/// # Example
+/// ```
+/// use lambda_extensions::*;
+/// use lambda_extensions::data::list::pair::slice;
+///
+/// let list1 = || vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+/// let list2 = || vec![2.into_church(), 3.into_church()].into_pair_list();
+/// let list3 = || vec![1.into_church(), 2.into_church()].into_pair_list();
+///
+/// assert_eq!(beta(app!(slice(), 1.into_church(), 3.into_church(), list1()), NOR, 0), list2());
+/// assert_eq!(beta(app!(slice(), 0.into_church(), 2.into_church(), list1()), NOR, 0), list3());
+/// ```
+pub fn slice() -> Term {
+    abs!(3, app!(
+        take(),
+        app!(church::sub(), Var(2), Var(3)),
+        app!(drop(), Var(3), Var(1))
+    ))
 }
 
 /// Applied to a bit array represented as a pair-encoded list of lambda-encoded booleans, it

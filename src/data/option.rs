@@ -1,27 +1,22 @@
-//! Conversion traits for lambda-encoded options
+//! Lambda-encoded options
 
 use lambda_calculus::*;
 
-use combinators::{I, Z};
 use data::convert::{TryFromTerm, TryFromTermChurch};
-use data::list::pair as pair_list;
+use data::monad::make_foldm;
 
 pub use lambda_calculus::data::option::*;
 
-/// Applied to a function, a starting value and a pair-encoded list it performs a monadic
-/// left fold on the list.
+/// Applied to a function that takes two arguments and returns an `Option`, a starting value, and a
+/// pair-encoded list it performs a monadic left fold on the list, returning an `Option`.
 ///
-/// FOLDM :: (b -> a -> Option<b>) -> Option<b> -> List<a> -> Option<b>
-///
-/// FOLDM ≡ (λfal.Z (λzfsl.IS_NIL l (λx.s) (λx.z f (AND_THEN s (λx.f x (HEAD l))) (TAIL l)) I) f (SOME a) l
+/// FOLDM :: (b -> a -> Option b) -> b -> [a] -> Option b
 ///
 /// # Example
 /// ```
 /// use lambda_extensions::*;
 /// use lambda_extensions::data::num::church::add;
 /// use lambda_extensions::data::option::{some, foldm};
-///
-/// //assert_eq!(beta(app(is_ascii(), 'f'.into_church()), HAP, 0), true.into());
 ///
 /// let empty = vec![].into_pair_list();
 /// let list = vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
@@ -31,32 +26,7 @@ pub use lambda_calculus::data::option::*;
 /// assert_eq!(beta(app!(foldm(), f(), 0.into_church(), list), NOR, 0), Some(6).into_church());
 /// ```
 pub fn foldm() -> Term {
-    abs!(3, app!(
-        Z(),
-        abs!(4, app!(
-            pair_list::is_nil(),
-            Var(1),
-            abs(Var(3)),
-            abs(app!(
-                Var(5),
-                Var(4),
-                app!(
-                    and_then(),
-                    Var(3),
-                    abs(app!(
-                        Var(5),
-                        Var(1),
-                        app(pair_list::head(), Var(3))
-                    ))
-                ),
-                app(pair_list::tail(), Var(2))
-            )),
-            I()
-        )),
-        Var(3),
-        app(some(), Var(2)),
-        Var(1)
-    ))
+    make_foldm(and_then(), some())
 }
 
 macro_rules! make_option_trait {

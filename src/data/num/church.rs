@@ -7,6 +7,11 @@ use data::convert::TryFromTermChurch;
 
 pub use lambda_calculus::data::num::church::*;
 
+/*
+pub fn num_to_string() {
+}
+*/
+
 impl TryFromTermChurch<u64> for Term {
     fn try_from_church(&self) -> Option<u64> {
         let mut inner: &Term = match self.unabs_ref().and_then(|x| x.unabs_ref()) {

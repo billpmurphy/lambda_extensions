@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["Bill Murphy <billpmurphy92@gmail.com>"]
 
 [dependencies]
-lambda_calculus = "2.1.0"
+lambda_calculus = { git = "https://github.com/ljedrz/lambda_calculus", rev = "d0db337e69c2e27659b4f506af69fe41b3a25c97" }

@@ -24,6 +24,30 @@ fn test_concat() {
 }
 
 #[test]
+fn test_slice() {
+    let empty = || vec![].into_pair_list();
+    let list1 = || vec![1.into_church(), 2.into_church(), 3.into_church()].into_pair_list();
+    let list2 = || vec![2.into_church(), 3.into_church()].into_pair_list();
+    let list3 = || vec![1.into_church(), 2.into_church()].into_pair_list();
+    let list4 = || vec![1.into_church()].into_pair_list();
+    let list5 = || vec![2.into_church()].into_pair_list();
+
+    assert_lc(app!(slice(), 0.into_church(), 0.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 1.into_church(), 1.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 2.into_church(), 2.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 2.into_church(), 1.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 2.into_church(), 0.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 5.into_church(), 5.into_church(), list1()), empty());
+    assert_lc(app!(slice(), 0.into_church(), 5.into_church(), empty()), empty());
+    assert_lc(app!(slice(), 0.into_church(), 5.into_church(), list1()), list1());
+    assert_lc(app!(slice(), 1.into_church(), 5.into_church(), list1()), list2());
+    assert_lc(app!(slice(), 1.into_church(), 3.into_church(), list1()), list2());
+    assert_lc(app!(slice(), 0.into_church(), 2.into_church(), list1()), list3());
+    assert_lc(app!(slice(), 0.into_church(), 1.into_church(), list1()), list4());
+    assert_lc(app!(slice(), 1.into_church(), 2.into_church(), list1()), list5());
+}
+
+#[test]
 fn test_bin_to_cnum() {
     let empty = vec![].into_pair_list();
     let list0a = vec![false.into()].into_pair_list();
